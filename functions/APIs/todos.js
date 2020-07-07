@@ -21,6 +21,18 @@ exports.getAllTodos = async (request, response) => {
 	}
 };
 
-exports.addOneTodo = async (request, response) => {};
-
-exports.getOneTodo = async (request, response) => {};
+exports.addOneTodo = (request, response) => {
+	const { title, date, status } = request.body;
+	db
+		.collection('todos')
+		.add({ title, date, status })
+		.then((doc) => {
+			const responseTodoItem = { title, date, status };
+			responseTodoItem.id = doc.id;
+			return response.json(responseTodoItem);
+		})
+		.catch((error) => {
+			response.status(500).json({ error: 'Something went wrong' });
+			console.error(error);
+		});
+};
