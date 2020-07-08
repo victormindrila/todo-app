@@ -38,9 +38,9 @@ class Signin extends React.Component {
 						<div className='form-group mb-3'>
 							<input
 								className='form-control'
-								name='email'
+								name='username'
 								placeholder='Username'
-								value={this.state.Username}
+								value={this.state.username}
 								onChange={(e) => this.handleChange(e)}
 							/>
 						</div>
