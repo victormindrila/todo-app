@@ -8,6 +8,7 @@ import Signin from './pages/Signin/Signin';
 import Signup from './pages/Signup/Signup';
 import ViewTodos from './pages/ViewTodos/ViewTodos';
 import AddTodo from './pages/AddTodo/AddTodo';
+import Page404 from './pages/Page404/Page404';
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 				<Route exact path='/signup' component={Signup} />
 				<Route exact path='/todos' component={ViewTodos} />
 				<Route exact path='/todos/add' component={AddTodo} />
+				<Route path='*' component={Page404} />
 			</Switch>
 		</div>
 	);
