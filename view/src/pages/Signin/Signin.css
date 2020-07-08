@@ -1,0 +1,11 @@
+.signin-page {
+	height: 100vh;
+}
+
+.login-form {
+	width: 500px;
+}
+
+.login-form .btn {
+	width: 45%;
+}
