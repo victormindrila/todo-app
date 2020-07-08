@@ -1,9 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
 
+//pages
+import Home from './pages/Home/Home';
+import Signin from './pages/Signin/Signin';
+import Signup from './pages/Signup/Signup';
+import ViewTodos from './pages/ViewTodos/ViewTodos';
+import AddTodo from './pages/AddTodo/AddTodo';
+
 function App() {
-	return <div className='App'>Hello</div>;
+	return (
+		<div className='App'>
+			<Switch>
+				<Route exact path='/' component={Home} />
+				<Route exact path='/signin' component={Signin} />
+				<Route exact path='/signup' component={Signup} />
+				<Route exact path='/todos' component={ViewTodos} />
+				<Route exact path='/todos/add' component={AddTodo} />
+			</Switch>
+		</div>
+	);
 }
 
 export default App;
