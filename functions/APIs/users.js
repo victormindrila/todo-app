@@ -5,22 +5,25 @@ const firebase = require('firebase');
 
 firebase.initializeApp(config);
 
-exports.signin = (request, response) => {
-	const { email, password } = request.body;
+exports.signin = async (request, response) => {
+	try {
+		const { username, password } = request.body;
 
-	firebase
-		.auth()
-		.signInWithEmailAndPassword(email, password)
-		.then((data) => {
-			return data.user.getIdToken();
-		})
-		.then((token) => {
-			return response.json({ token });
-		})
-		.catch((error) => {
-			console.error(error);
-			return response.status(403).json({ general: 'wrong credentials, please try again' });
-		});
+		const userSnapshot = await db.doc(`/users/${username}`).get();
+
+		if (!userSnapshot.exists) {
+			return response.status(400).json({ error: "username doesn't exist" });
+		}
+
+		const userData = await firebase.auth().signInWithEmailAndPassword(userSnapshot.data().email, password);
+
+		const token = await userData.user.getIdToken();
+
+		return response.json({ token });
+	} catch (error) {
+		console.error(error);
+		return response.status(403).json({ error: 'wrong credentials, please try again' });
+	}
 };
 
 exports.signup = (request, response) => {
@@ -29,8 +32,8 @@ exports.signup = (request, response) => {
 		email: request.body.email,
 		password: request.body.password,
 		confirmPassword: request.body.confirmPassword,
-		website: request.body.website,
-		phoneNumber: request.body.phoneNumber
+		website: request.body.website || null,
+		phoneNumber: request.body.phoneNumber || null
 	};
 
 	let token, userId;
@@ -40,7 +43,7 @@ exports.signup = (request, response) => {
 		.get()
 		.then((doc) => {
 			if (doc.exists) {
-				return response.status(400).json({ username: 'this username is already taken' });
+				return response.status(400).json({ error: 'this username is already taken' });
 			} else {
 				return firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password);
 			}
@@ -67,9 +70,9 @@ exports.signup = (request, response) => {
 		.catch((error) => {
 			console.error(error);
 			if (error.code === 'auth/email-already-in-use') {
-				return response.status(400).json({ email: 'Email already in use' });
+				return response.status(400).json({ error: 'Email already in use' });
 			} else {
-				return response.status(500).json({ general: 'Something went wrong, please try again' });
+				return response.status(500).json({ error: 'Something went wrong, please try again' });
 			}
 		});
 };
