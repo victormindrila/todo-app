@@ -32,7 +32,7 @@ exports.validateSignUpData = (data) => {
 
 	if (isEmpty(data.username)) errors.username = 'Must not be empty';
 	if (isEmpty(data.password)) errors.password = 'Must not be empty';
-	if (isEmpty(data.passwordConfirmation)) errors.confirmPassword = 'Must not be empty';
+	if (isEmpty(data.passwordConfirmation)) errors.passwordConfirmation = 'Must not be empty';
 	if (data.password !== data.passwordConfirmation) errors.passwordConfirmation = 'Passwords must be the same';
 
 	return {
