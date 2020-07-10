@@ -1,7 +1,14 @@
 import React from 'react';
 
+//components
+import Layout from '../../components/Layout/Layout';
+
 function Home() {
-	return <div>Hello from home</div>;
+	return (
+		<Layout>
+			<p>Hello from home</p>
+		</Layout>
+	);
 }
 
 export default Home;

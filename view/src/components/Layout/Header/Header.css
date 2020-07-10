@@ -1,0 +1,8 @@
+header .logo {
+	width: auto;
+	height: 60px;
+}
+
+.user-dropdown {
+	cursor: pointer;
+}
