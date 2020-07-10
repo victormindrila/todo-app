@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Logo from '../../assets/images/logo/logo.png';
+import { connect } from 'react-redux';
+
+//style
 import './Signup.css';
 
 //components
 import Error from '../../components/Error/Error';
+import Logo from '../../assets/images/logo/logo.png';
 
 //helpers
 import { validateSignUpData } from '../../util/validators';
 
+//actions
+import { signUpUser, updateError } from '../../store/actions/user';
 class Signup extends Component {
 	constructor() {
 		super();
@@ -20,9 +25,14 @@ class Signup extends Component {
 			passwordConfirmation: '',
 			website: '',
 			phoneNumber: '',
-			validationErrors: '',
-			fetchError: ''
+			validationErrors: ''
 		};
+	}
+
+	componentDidUpdate(prevProps) {
+		if (this.props.user !== prevProps.user) {
+			this.props.history.push('/todos');
+		}
 	}
 
 	handleChange(e) {
@@ -33,10 +43,11 @@ class Signup extends Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		this.setState({
-			validationErrors: '',
-			fetchError: ''
-		});
+		const { signupUser, updateError } = this.props;
+		//check if any error already stored in state and clear
+		if (this.state.validationErrors) this.setState({ validationErrors: '' });
+		if (this.props.fetchError) updateError('');
+
 		const userData = {
 			username: this.state.username,
 			email: this.state.email,
@@ -48,19 +59,8 @@ class Signup extends Component {
 
 		const { valid, errors } = validateSignUpData(userData);
 
-		if (valid) {
-			axios
-				.post('/signup', this.state)
-				.then((response) => {
-					localStorage.setItem('Authorization', 'Bearer ' + response.data.token);
-				})
-				.catch((error) => {
-					console.dir(error);
-					this.setState({ fetchError: error.response.data });
-				});
-		} else {
-			this.setState({ validationErrors: errors });
-		}
+		if (!valid) this.setState({ validationErrors: errors });
+		if (valid) signupUser(userData);
 	}
 
 	render() {
@@ -152,7 +152,7 @@ class Signup extends Component {
 								</button>
 							</div>
 						</div>
-						{this.state.fetchError.error && <Error error={this.state.fetchError.error} />}
+						{this.props.fetchError.error && <Error error={this.props.fetchError.error} />}
 					</form>
 				</div>
 			</div>
@@ -160,4 +160,19 @@ class Signup extends Component {
 	}
 }
 
-export default Signup;
+function mapStateToProps(state) {
+	return {
+		user: state.user.data,
+		fetchError: state.user.error
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		signupUser: (userData) => {
+			dispatch(signUpUser(userData));
+		}
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

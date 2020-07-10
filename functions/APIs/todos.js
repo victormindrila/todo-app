@@ -7,12 +7,13 @@ exports.getAllTodos = async (request, response) => {
 		let todos = [];
 
 		todosSnapshots.forEach((doc) => {
+			console.log(doc.data());
 			todos.push({
 				todoId: doc.id,
 				username: doc.data().username,
 				title: doc.data().title,
-				body: doc.data().body,
-				createdAt: doc.data().createdAt
+				dueDate: doc.data().dueDate,
+				completed: doc.data().completed
 			});
 		});
 		return response.json(todos);
@@ -23,13 +24,14 @@ exports.getAllTodos = async (request, response) => {
 };
 
 exports.addOneTodo = (request, response) => {
-	const { title, date, status } = request.body;
+	const { title, dueDate, completed } = request.body;
 	const { username } = request.user;
+	console.log(request.body, username);
 	db
 		.collection('todos')
-		.add({ username, title, date, status })
+		.add({ username, title, dueDate, completed })
 		.then((doc) => {
-			const responseTodoItem = { username, title, date, status };
+			const responseTodoItem = { username, title, dueDate, completed };
 			responseTodoItem.id = doc.id;
 			return response.json(responseTodoItem);
 		})

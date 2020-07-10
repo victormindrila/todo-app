@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 //components
 import Layout from '../../components/Layout/Layout';
@@ -7,6 +7,7 @@ import Error from '../../components/Error/Error';
 
 //helpers
 import { validateAddTodoData } from '../../util/validators';
+import { addTodo, updateErrorTodos } from '../../store/actions/todos';
 
 class AddTodo extends React.Component {
 	constructor() {
@@ -15,8 +16,7 @@ class AddTodo extends React.Component {
 			title: '',
 			dueDate: '',
 			completed: '',
-			validationErrors: '',
-			fetchError: ''
+			validationErrors: ''
 		};
 	}
 
@@ -28,10 +28,10 @@ class AddTodo extends React.Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		this.setState({
-			validationErrors: '',
-			fetchError: ''
-		});
+		const { addTodo, updateErrorTodos } = this.props;
+		//check if any error already stored in state and clear
+		if (this.state.validationErrors) this.setState({ validationErrors: '' });
+		if (this.props.fetchError) updateErrorTodos('');
 
 		const todoData = {
 			title: this.state.title,
@@ -40,11 +40,9 @@ class AddTodo extends React.Component {
 		};
 
 		const { valid, errors } = validateAddTodoData(todoData);
-		if (valid) {
-			//todo
-		} else {
-			this.setState({ validationErrors: errors });
-		}
+
+		if (valid) addTodo(todoData);
+		if (!valid) this.setState({ validationErrors: errors });
 	}
 
 	render() {
@@ -82,7 +80,7 @@ class AddTodo extends React.Component {
 							<option value='' disabled>
 								Status
 							</option>
-							<option value={true}>Complete</option>
+							<option value={true}>Completed</option>
 							<option value={false}>Incomplete</option>
 						</select>
 						{this.state.validationErrors.completed && <Error error={this.state.validationErrors.completed} />}
@@ -93,10 +91,27 @@ class AddTodo extends React.Component {
 						</div>
 					</div>
 				</form>
-				{this.state.fetchError.error && <Error error={this.state.fetchError.error} />}
+				{this.props.fetchError.error && <Error error={this.props.fetchError.error} />}
 			</Layout>
 		);
 	}
 }
 
-export default AddTodo;
+function mapStateToProps(state) {
+	return {
+		fetchError: state.todos.error
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		addTodo: (todoData) => {
+			dispatch(addTodo(todoData));
+		},
+		updateErrorTodos: (error) => {
+			dispatch(updateErrorTodos(error));
+		}
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTodo);

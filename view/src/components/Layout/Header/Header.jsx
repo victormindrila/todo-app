@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../../assets/images/logo/logo.png';
+import { connect } from 'react-redux';
+
+//style
 import './Header.css';
 
 //components
 import { ReactComponent as UserLogo } from '../../../assets/icons/user.svg';
 import Dropdown from '../../../components/Dropdown/Dropdown';
+import Logo from '../../../assets/images/logo/logo.png';
 
-function Header() {
+function Header({ user }) {
 	const [ showDropDown, setShowDropDown ] = useState(false);
 	return (
 		<header className='border-bottom mb-3 '>
@@ -19,7 +22,7 @@ function Header() {
 					<h1 className='h3'>My Cool App</h1>
 					<div className=' user-dropdown dropdown d-flex align-items-center' onClick={() => setShowDropDown(true)}>
 						<UserLogo />
-						<span className='h4 ml-1 mt-2'>Welcome {'Username'}</span>
+						<span className='h4 ml-1 mt-2'>Welcome {user.username}</span>
 						<div className=' dropdown-toggle h4 ml-2 pt-2' />
 						<Dropdown show={showDropDown} setShowDropDown={setShowDropDown} />
 					</div>
@@ -29,4 +32,10 @@ function Header() {
 	);
 }
 
-export default Header;
+function mapStateToProps(state) {
+	return {
+		user: state.user.data
+	};
+}
+
+export default connect(mapStateToProps)(Header);

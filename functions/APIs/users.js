@@ -6,6 +6,7 @@ const firebase = require('firebase');
 firebase.initializeApp(config);
 
 exports.signin = async (request, response) => {
+	console.log('signin');
 	try {
 		const { username, password } = request.body;
 
@@ -75,4 +76,19 @@ exports.signup = (request, response) => {
 				return response.status(500).json({ error: 'Something went wrong, please try again' });
 			}
 		});
+};
+
+exports.getUserDetails = async (request, response) => {
+	try {
+		let userData = {};
+		const documentSnapshot = await db.doc(`/users/${request.user.username}`).get();
+
+		if (documentSnapshot.exists) {
+			userData = documentSnapshot.data();
+			return response.json(userData);
+		}
+	} catch (error) {
+		console.error(error);
+		return response.status(500).json({ error: error.code });
+	}
 };

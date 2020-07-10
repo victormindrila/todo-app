@@ -1,23 +1,6 @@
 import React from 'react';
 
-function TodosList() {
-	const todos = [
-		{
-			title: 'Todo Task',
-			completed: false,
-			dueDate: 'Due on 23/05/2020'
-		},
-		{
-			title: 'Todo Task',
-			completed: false,
-			dueDate: 'Due on 23/05/2020'
-		},
-		{
-			title: 'Todo Task',
-			completed: true,
-			dueDate: 'Due on 23/05/2020'
-		}
-	];
+function TodosList({ todos }) {
 	return (
 		<div>
 			{todos.map((todo) => {
@@ -27,7 +10,9 @@ function TodosList() {
 							<p>{todo.title}</p>
 						</div>
 
-						<div className='w-50'>{todo.completed && <p className='badge badge-pill badge-primary'>completed</p>} </div>
+						<div className='w-50'>
+							{todo.completed === true && <p className='badge badge-pill badge-primary'>completed</p>}
+						</div>
 
 						<div className='w-25'>
 							<p>{todo.dueDate}</p>

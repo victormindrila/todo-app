@@ -1,14 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import Logo from '../../assets/images/logo/logo.png';
+import { connect } from 'react-redux';
+
+//style
 import './Signin.css';
 
 //components
 import Error from '../../components/Error/Error';
+import Logo from '../../assets/images/logo/logo.png';
 
 //helpers
 import { validateSigninData } from '../../util/validators';
+
+//actions
+import { signinUser, updateError } from '../../store/actions/user';
 
 class Signin extends React.Component {
 	constructor() {
@@ -16,9 +21,14 @@ class Signin extends React.Component {
 		this.state = {
 			username: '',
 			password: '',
-			validationErrors: '',
-			fetchError: ''
+			validationErrors: ''
 		};
+	}
+
+	componentDidUpdate(prevProps) {
+		if (this.props.user !== prevProps.user) {
+			this.props.history.push('/todos');
+		}
 	}
 
 	handleChange(e) {
@@ -29,26 +39,17 @@ class Signin extends React.Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		this.setState({
-			validationErrors: '',
-			fetchError: ''
-		});
+		const { signinUser, updateError } = this.props;
+		//check if any error already stored in state and clear
+		if (this.state.validationErrors) this.setState({ validationErrors: '' });
+		if (this.props.fetchError) updateError('');
+
 		const userData = { username: this.state.username, password: this.state.password };
 
 		const { valid, errors } = validateSigninData(userData);
 
-		if (valid) {
-			axios
-				.post('/signin', this.state)
-				.then((response) => {
-					localStorage.setItem('Authorization', 'Bearer ' + response.data.token);
-				})
-				.catch((error) => {
-					this.setState({ fetchError: error.response.data });
-				});
-		} else {
-			this.setState({ validationErrors: errors });
-		}
+		if (!valid) this.setState({ validationErrors: errors });
+		if (valid) signinUser(userData);
 	}
 
 	render() {
@@ -104,11 +105,29 @@ class Signin extends React.Component {
 							</button>
 						</div>
 					</form>
-					{this.state.fetchError.error && <Error error={this.state.fetchError.error} />}
+					{this.props.fetchError.error && <Error error={this.props.fetchError.error} />}
 				</div>
 			</div>
 		);
 	}
 }
 
-export default Signin;
+function mapStateToProps(state) {
+	return {
+		user: state.user.data,
+		fetchError: state.user.error
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		signinUser: (username, password) => {
+			dispatch(signinUser(username, password));
+		},
+		updateError: (error) => {
+			dispatch(updateError(error));
+		}
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signin);
