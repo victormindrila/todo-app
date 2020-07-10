@@ -7,7 +7,6 @@ exports.getAllTodos = async (request, response) => {
 		let todos = [];
 
 		todosSnapshots.forEach((doc) => {
-			console.log(doc.data());
 			todos.push({
 				todoId: doc.id,
 				username: doc.data().username,
@@ -26,7 +25,6 @@ exports.getAllTodos = async (request, response) => {
 exports.addOneTodo = (request, response) => {
 	const { title, dueDate, completed } = request.body;
 	const { username } = request.user;
-	console.log(request.body, username);
 	db
 		.collection('todos')
 		.add({ username, title, dueDate, completed })
