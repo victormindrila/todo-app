@@ -7,7 +7,7 @@ function Layout(props) {
 	return (
 		<div className='layout'>
 			<Header />
-			{props.children}
+			<div className='container container-fluid'>{props.children}</div>
 			<Footer />
 		</div>
 	);
