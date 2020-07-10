@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 
 //components
 import Layout from '../../components/Layout/Layout';
+import Error from '../../components/Error/Error';
+
+//helpers
+import { validateAddTodoData } from '../../util/validators';
 
 class AddTodo extends React.Component {
 	constructor() {
@@ -10,7 +14,9 @@ class AddTodo extends React.Component {
 		this.state = {
 			title: '',
 			dueDate: '',
-			completed: ''
+			completed: '',
+			validationErrors: '',
+			fetchError: ''
 		};
 	}
 
@@ -22,7 +28,23 @@ class AddTodo extends React.Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		console.log(this.state);
+		this.setState({
+			validationErrors: '',
+			fetchError: ''
+		});
+
+		const todoData = {
+			title: this.state.title,
+			dueDate: this.state.dueDate,
+			completed: this.state.completed
+		};
+
+		const { valid, errors } = validateAddTodoData(todoData);
+		if (valid) {
+			//todo
+		} else {
+			this.setState({ validationErrors: errors });
+		}
 	}
 
 	render() {
@@ -43,6 +65,7 @@ class AddTodo extends React.Component {
 							value={this.state.title}
 							onChange={(e) => this.handleChange(e)}
 						/>
+						{this.state.validationErrors.title && <Error error={this.state.validationErrors.title} />}
 						<input
 							type='date'
 							className='form-control w-25 my-3'
@@ -50,6 +73,7 @@ class AddTodo extends React.Component {
 							value={this.state.dueDate}
 							onChange={(e) => this.handleChange(e)}
 						/>
+						{this.state.validationErrors.dueDate && <Error error={this.state.validationErrors.dueDate} />}
 						<select
 							value={this.state.completed}
 							name='completed'
@@ -61,11 +85,15 @@ class AddTodo extends React.Component {
 							<option value={true}>Complete</option>
 							<option value={false}>Incomplete</option>
 						</select>
-						<button type='submit' className='btn btn-outline-dark px-5 text-center'>
-							Add Todo
-						</button>
+						{this.state.validationErrors.completed && <Error error={this.state.validationErrors.completed} />}
+						<div>
+							<button type='submit' className='btn btn-outline-dark px-5 text-center'>
+								Add Todo
+							</button>
+						</div>
 					</div>
 				</form>
+				{this.state.fetchError.error && <Error error={this.state.fetchError.error} />}
 			</Layout>
 		);
 	}

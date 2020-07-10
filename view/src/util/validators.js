@@ -40,3 +40,16 @@ exports.validateSignUpData = (data) => {
 		valid: Object.keys(errors).length === 0 ? true : false
 	};
 };
+
+exports.validateAddTodoData = (data) => {
+	let errors = {};
+
+	if (isEmpty(data.title)) errors.title = 'Must not be empty';
+	if (isEmpty(data.dueDate)) errors.dueDate = 'Must not be empty';
+	if (isEmpty(data.completed)) errors.completed = 'Must not be empty';
+
+	return {
+		errors,
+		valid: Object.keys(errors).length === 0 ? true : false
+	};
+};
