@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Logo from '../../assets/images/logo/logo.png';
 import './Signup.css';
+
+//components
+import Error from '../../components/Error/Error';
+
+//helpers
+import { validateSignUpData } from '../../util/validators';
 
 class Signup extends Component {
 	constructor() {
@@ -12,7 +19,9 @@ class Signup extends Component {
 			password: '',
 			passwordConfirmation: '',
 			website: '',
-			phone: ''
+			phoneNumber: '',
+			validationErrors: '',
+			fetchError: ''
 		};
 	}
 
@@ -24,7 +33,34 @@ class Signup extends Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		//todo
+		this.setState({
+			validationErrors: '',
+			fetchError: ''
+		});
+		const userData = {
+			username: this.state.username,
+			email: this.state.email,
+			password: this.state.password,
+			passwordConfirmation: this.state.passwordConfirmation,
+			website: this.state.website,
+			phoneNumber: this.state.phoneNumber
+		};
+
+		const { valid, errors } = validateSignUpData(userData);
+
+		if (valid) {
+			axios
+				.post('/signup', this.state)
+				.then((response) => {
+					localStorage.setItem('Authorization', 'Bearer ' + response.data.token);
+				})
+				.catch((error) => {
+					console.dir(error);
+					this.setState({ fetchError: error.response.data });
+				});
+		} else {
+			this.setState({ validationErrors: errors });
+		}
 	}
 
 	render() {
@@ -48,6 +84,7 @@ class Signup extends Component {
 									value={this.state.username}
 									onChange={(e) => this.handleChange(e)}
 								/>
+								{this.state.validationErrors.username && <Error error={this.state.validationErrors.username} />}
 							</div>
 							<div className='col-sm-6 my-2'>
 								<input
@@ -58,6 +95,7 @@ class Signup extends Component {
 									value={this.state.email}
 									onChange={(e) => this.handleChange(e)}
 								/>
+								{this.state.validationErrors.email && <Error error={this.state.validationErrors.email} />}
 							</div>
 							<div className='col-sm-6 my-2'>
 								<input
@@ -68,6 +106,7 @@ class Signup extends Component {
 									value={this.state.password}
 									onChange={(e) => this.handleChange(e)}
 								/>
+								{this.state.validationErrors.password && <Error error={this.state.validationErrors.password} />}
 							</div>
 							<div className='col-sm-6 my-2'>
 								<input
@@ -78,6 +117,9 @@ class Signup extends Component {
 									value={this.state.passwordConfirmation}
 									onChange={(e) => this.handleChange(e)}
 								/>
+								{this.state.validationErrors.passwordConfirmation && (
+									<Error error={this.state.validationErrors.passwordConfirmation} />
+								)}
 							</div>
 							<div className='col-sm-6 my-2'>
 								<input
@@ -93,7 +135,7 @@ class Signup extends Component {
 								<input
 									type='text'
 									className='form-control'
-									name='phone'
+									name='phoneNumber'
 									placeholder='Phone'
 									value={this.state.phone}
 									onChange={(e) => this.handleChange(e)}
@@ -110,6 +152,7 @@ class Signup extends Component {
 								</button>
 							</div>
 						</div>
+						{this.state.fetchError.error && <Error error={this.state.fetchError.error} />}
 					</form>
 				</div>
 			</div>

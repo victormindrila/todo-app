@@ -1,14 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Logo from '../../assets/images/logo/logo.png';
 import './Signin.css';
+
+//components
+import Error from '../../components/Error/Error';
+
+//helpers
+import { validateSigninData } from '../../util/validators';
 
 class Signin extends React.Component {
 	constructor() {
 		super();
 		this.state = {
 			username: '',
-			password: ''
+			password: '',
+			validationErrors: '',
+			fetchError: ''
 		};
 	}
 
@@ -20,7 +29,26 @@ class Signin extends React.Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		//todo
+		this.setState({
+			validationErrors: '',
+			fetchError: ''
+		});
+		const userData = { username: this.state.username, password: this.state.password };
+
+		const { valid, errors } = validateSigninData(userData);
+
+		if (valid) {
+			axios
+				.post('/signin', this.state)
+				.then((response) => {
+					localStorage.setItem('Authorization', 'Bearer ' + response.data.token);
+				})
+				.catch((error) => {
+					this.setState({ fetchError: error.response.data });
+				});
+		} else {
+			this.setState({ validationErrors: errors });
+		}
 	}
 
 	render() {
@@ -43,7 +71,9 @@ class Signin extends React.Component {
 								value={this.state.username}
 								onChange={(e) => this.handleChange(e)}
 							/>
+							{this.state.validationErrors.username && <Error error={this.state.validationErrors.username} />}
 						</div>
+
 						<div className='form-group my-2'>
 							<input
 								type='password'
@@ -53,6 +83,7 @@ class Signin extends React.Component {
 								value={this.state.password}
 								onChange={(e) => this.handleChange(e)}
 							/>
+							{this.state.validationErrors.password && <Error error={this.state.validationErrors.password} />}
 						</div>
 
 						<div className='form-check my-2 mt-3'>
@@ -73,6 +104,7 @@ class Signin extends React.Component {
 							</button>
 						</div>
 					</form>
+					{this.state.fetchError.error && <Error error={this.state.fetchError.error} />}
 				</div>
 			</div>
 		);
