@@ -15,6 +15,10 @@ import { validateSignUpData } from '../../util/validators';
 
 //actions
 import { signUpUser, updateError } from '../../store/actions/user';
+
+//selectors
+import { getUserData, getFetchUserError } from '../../store/selectors.js';
+
 class Signup extends Component {
 	constructor() {
 		super();
@@ -162,8 +166,8 @@ class Signup extends Component {
 
 function mapStateToProps(state) {
 	return {
-		user: state.user.data,
-		fetchError: state.user.error
+		user: getUserData(state),
+		fetchError: getFetchUserError(state)
 	};
 }
 
@@ -171,6 +175,9 @@ function mapDispatchToProps(dispatch) {
 	return {
 		signupUser: (userData) => {
 			dispatch(signUpUser(userData));
+		},
+		updateError: (error) => {
+			dispatch(updateError(error));
 		}
 	};
 }

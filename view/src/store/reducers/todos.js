@@ -1,7 +1,8 @@
 const initialState = {
 	data: [],
 	loading: false,
-	error: ''
+	error: '',
+	visibilityFilter: 'SHOW_ALL'
 };
 
 export function todosReducer(state = initialState, action) {
@@ -22,6 +23,11 @@ export function todosReducer(state = initialState, action) {
 				...state,
 				error: action.payload,
 				loading: false
+			};
+		case 'SET_VISIBILITY_FILTER':
+			return {
+				...state,
+				visibilityFilter: action.filter
 			};
 		default:
 			return state;

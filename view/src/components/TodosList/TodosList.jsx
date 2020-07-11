@@ -10,12 +10,10 @@ function TodosList({ todos }) {
 							<p>{todo.title}</p>
 						</div>
 
-						<div className='w-50'>
-							{todo.completed === 'true' && <p className='badge badge-pill badge-primary'>completed</p>}
-						</div>
+						<div className='w-50'>{todo.completed && <p className='badge badge-pill badge-primary'>completed</p>}</div>
 
 						<div className='w-25'>
-							<p>{todo.dueDate}</p>
+							<p>Due on {todo.dueDate}</p>
 						</div>
 					</div>
 				);

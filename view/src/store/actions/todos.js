@@ -20,6 +20,13 @@ export function updateErrorTodos(payload) {
 	};
 }
 
+export function setVisibilityFilter(filter) {
+	return {
+		type: 'SET_VISIBILITY_FILTER',
+		filter: filter
+	};
+}
+
 export function getAllTodos() {
 	return (dispatch) => {
 		dispatch(startLoadingTodos());

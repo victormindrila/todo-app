@@ -9,6 +9,9 @@ import Error from '../../components/Error/Error';
 import { validateAddTodoData } from '../../util/validators';
 import { addTodo, updateErrorTodos } from '../../store/actions/todos';
 
+//selectors
+import { getFetchTodosError } from '../../store/selectors';
+
 class AddTodo extends React.Component {
 	constructor() {
 		super();
@@ -24,6 +27,16 @@ class AddTodo extends React.Component {
 		this.setState({
 			[e.target.name]: e.target.value
 		});
+	}
+
+	handleSelectChange(e) {
+		if (e.target.value === 'true') {
+			this.setState({ [e.target.name]: true });
+		} else if (e.target.value === 'false') {
+			this.setState({ [e.target.name]: false });
+		} else {
+			this.setState({ [e.target.name]: e.target.value });
+		}
 	}
 
 	handleSubmit(e) {
@@ -80,7 +93,7 @@ class AddTodo extends React.Component {
 							value={this.state.completed}
 							name='completed'
 							className='form-control w-25 my-3'
-							onChange={(e) => this.handleChange(e)}>
+							onChange={(e) => this.handleSelectChange(e)}>
 							<option value='' disabled>
 								Status
 							</option>
@@ -95,7 +108,7 @@ class AddTodo extends React.Component {
 						</div>
 					</div>
 				</form>
-				{this.props.fetchError.error && <Error error={this.props.fetchError.error} />}
+				{this.props.fetchError && <Error error={this.props.fetchError} />}
 			</Layout>
 		);
 	}
@@ -103,7 +116,7 @@ class AddTodo extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		fetchError: state.todos.error
+		fetchError: getFetchTodosError(state)
 	};
 }
 

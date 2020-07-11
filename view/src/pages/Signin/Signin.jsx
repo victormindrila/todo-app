@@ -15,6 +15,9 @@ import { validateSigninData } from '../../util/validators';
 //actions
 import { signinUser, updateError } from '../../store/actions/user';
 
+//selectors
+import { getUserData, getFetchUserError } from '../../store/selectors.js';
+
 class Signin extends React.Component {
 	constructor() {
 		super();
@@ -114,8 +117,8 @@ class Signin extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		user: state.user.data,
-		fetchError: state.user.error
+		user: getUserData(state),
+		fetchError: getFetchUserError(state)
 	};
 }
 
