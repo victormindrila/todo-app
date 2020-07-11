@@ -5,7 +5,7 @@ function TodosList({ todos }) {
 		<div>
 			{todos.map((todo) => {
 				return (
-					<div className='todo-wrapper d-flex align-items-center border-bottom mt-3'>
+					<div className='todo-wrapper d-flex align-items-center border-bottom mt-3' key={todo.todoId}>
 						<div className='w-25'>
 							<p>{todo.title}</p>
 						</div>
