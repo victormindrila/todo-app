@@ -147,7 +147,9 @@ class Signup extends Component {
 						</div>
 						<div className='row'>
 							<div className='col-sm-6 my-2'>
-								<button className='btn btn-outline-dark px-5'> &lt; Back</button>
+								<button className='btn btn-outline-dark px-5' onClick={() => this.props.history.goBack()}>
+									&lt; Back
+								</button>
 							</div>
 							<div className='col-sm-6 my-2'>
 								<button type='submit' className='btn btn-outline-dark form-control'>
