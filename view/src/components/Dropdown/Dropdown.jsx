@@ -33,7 +33,7 @@ class Dropdown extends React.Component {
 		return (
 			<div
 				ref={this.setWrapperRef}
-				className={`w-100 dropdown-menu dropdown-menu-right ${this.props.show ? 'show' : ''}`}>
+				className={`w-100 shadow dropdown-menu dropdown-menu-right ${this.props.show ? 'show' : ''}`}>
 				<button
 					className='dropdown-item text-center'
 					onClick={() => {
