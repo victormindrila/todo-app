@@ -11,18 +11,14 @@ import Dropdown from '../../../components/Dropdown/Dropdown';
 import Logo from '../../../assets/images/logo/logo.png';
 
 //actions
-import { fetchUserData } from '../../../store/actions/user';
+import { logoutUser } from '../../../store/actions/user';
+import { clearTodos } from '../../../store/actions/todos';
 
 //selectors
-import { getUserData, getUserToken } from '../../../store/selectors.js';
+import { getUserData } from '../../../store/selectors.js';
 
-function Header({ user, userToken, fetchUserData }) {
+function Header({ user, logoutUser, clearTodos }) {
 	const [ showDropDown, setShowDropDown ] = useState(false);
-	useEffect(() => {
-		if (!user) {
-			fetchUserData(userToken);
-		}
-	}, []);
 	return (
 		<header className='border-bottom mb-3 '>
 			<div className='nav-bar container-fluid d-flex align-items-center'>
@@ -35,7 +31,12 @@ function Header({ user, userToken, fetchUserData }) {
 						<UserLogo />
 						<span className='h4 ml-1 mt-2'>Welcome {user.username}</span>
 						<div className=' dropdown-toggle h4 ml-2 pt-2' />
-						<Dropdown show={showDropDown} setShowDropDown={setShowDropDown} />
+						<Dropdown
+							show={showDropDown}
+							setShowDropDown={setShowDropDown}
+							logoutUser={logoutUser}
+							clearTodos={clearTodos}
+						/>
 					</div>
 				</div>
 			</div>
@@ -45,15 +46,17 @@ function Header({ user, userToken, fetchUserData }) {
 
 function mapStateToProps(state) {
 	return {
-		user: getUserData(state),
-		userToken: getUserToken(state)
+		user: getUserData(state)
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		fetchUserData: () => {
-			dispatch(fetchUserData());
+		logoutUser: () => {
+			dispatch(logoutUser());
+		},
+		clearTodos: () => {
+			dispatch(clearTodos());
 		}
 	};
 }

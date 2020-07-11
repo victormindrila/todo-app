@@ -27,6 +27,12 @@ export function setVisibilityFilter(filter) {
 	};
 }
 
+export function clearTodos() {
+	return {
+		type: 'CLEAR_TODOS_DATA'
+	};
+}
+
 export function getAllTodos(token) {
 	return (dispatch) => {
 		dispatch(startLoadingTodos());
@@ -45,7 +51,6 @@ export function getAllTodos(token) {
 }
 
 export function addTodo(todoData, token) {
-	console.log(todoData);
 	return (dispatch) => {
 		dispatch(startLoadingTodos());
 		const authToken = token || localStorage.getItem('Authorization');

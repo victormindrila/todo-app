@@ -92,3 +92,11 @@ export function fetchUserData(token) {
 			});
 	};
 }
+
+export function logoutUser() {
+	return (dispatch) => {
+		localStorage.clear();
+		dispatch(updateUserData(null));
+		dispatch(updateUserToken(null));
+	};
+}

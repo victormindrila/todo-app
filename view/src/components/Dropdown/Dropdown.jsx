@@ -20,7 +20,8 @@ class Dropdown extends React.Component {
 	}
 
 	handleClick() {
-		//todo
+		this.props.clearTodos();
+		this.props.logoutUser();
 	}
 
 	handleClickOutside(event) {
@@ -30,6 +31,8 @@ class Dropdown extends React.Component {
 	}
 
 	render() {
+		console.log(this.props);
+
 		return (
 			<div
 				ref={this.setWrapperRef}

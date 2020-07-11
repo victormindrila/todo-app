@@ -29,6 +29,13 @@ export function todosReducer(state = initialState, action) {
 				...state,
 				visibilityFilter: action.filter
 			};
+		case 'CLEAR_TODOS_DATA':
+			return {
+				...state,
+				data: [],
+				loading: false,
+				visibilityFilter: 'SHOW_ALL'
+			};
 		default:
 			return state;
 	}
