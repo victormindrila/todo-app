@@ -41,7 +41,11 @@ class AddTodo extends React.Component {
 
 		const { valid, errors } = validateAddTodoData(todoData);
 
-		if (valid) addTodo(todoData);
+		if (valid) {
+			addTodo(todoData);
+			this.props.history.push('/todos');
+		}
+
 		if (!valid) this.setState({ validationErrors: errors });
 	}
 

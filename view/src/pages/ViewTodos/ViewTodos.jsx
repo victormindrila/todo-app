@@ -15,6 +15,7 @@ class ViewTodos extends React.Component {
 			this.props.getAllTodos();
 		}
 	}
+
 	render() {
 		return (
 			<Layout>

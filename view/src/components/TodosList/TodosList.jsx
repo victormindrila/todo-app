@@ -11,7 +11,7 @@ function TodosList({ todos }) {
 						</div>
 
 						<div className='w-50'>
-							{todo.completed === true && <p className='badge badge-pill badge-primary'>completed</p>}
+							{todo.completed === 'true' && <p className='badge badge-pill badge-primary'>completed</p>}
 						</div>
 
 						<div className='w-25'>

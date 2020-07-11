@@ -14,7 +14,7 @@ export function todosReducer(state = initialState, action) {
 		case 'UPDATE_TODOS_DATA':
 			return {
 				...state,
-				data: [ ...state.data, ...action.payload ],
+				data: [ ...action.payload ],
 				loading: false
 			};
 		case 'UPDATE_ERROR_TODOS':
