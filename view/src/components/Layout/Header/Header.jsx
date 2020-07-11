@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -10,8 +10,17 @@ import { ReactComponent as UserLogo } from '../../../assets/icons/user.svg';
 import Dropdown from '../../../components/Dropdown/Dropdown';
 import Logo from '../../../assets/images/logo/logo.png';
 
-function Header({ user }) {
+//actions
+import { fetchUserData } from '../../../store/actions/user';
+
+//selectors
+import { getUserData } from '../../../store/selectors.js';
+
+function Header({ user, fetchUserData }) {
 	const [ showDropDown, setShowDropDown ] = useState(false);
+	useEffect(() => {
+		fetchUserData();
+	}, []);
 	return (
 		<header className='border-bottom mb-3 '>
 			<div className='nav-bar container-fluid d-flex align-items-center'>
@@ -34,8 +43,16 @@ function Header({ user }) {
 
 function mapStateToProps(state) {
 	return {
-		user: state.user.data
+		user: getUserData(state)
 	};
 }
 
-export default connect(mapStateToProps)(Header);
+function mapDispatchToProps(dispatch) {
+	return {
+		fetchUserData: () => {
+			dispatch(fetchUserData());
+		}
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

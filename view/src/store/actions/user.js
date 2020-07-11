@@ -34,7 +34,7 @@ export function signinUser({ username, password }) {
 			.then((response) => {
 				const payload = response.data;
 				localStorage.setItem('Authorization', 'Bearer ' + payload.token);
-				dispatch(getUserData());
+				dispatch(fetchUserData());
 			})
 			.catch((error) => {
 				if (!error.response) {
@@ -55,7 +55,7 @@ export function signUpUser(userData) {
 			.then((response) => {
 				const payload = response.data;
 				localStorage.setItem('Authorization', 'Bearer ' + payload.token);
-				dispatch(getUserData());
+				dispatch(fetchUserData());
 			})
 			.catch((error) => {
 				dispatch(updateError(error));
@@ -63,7 +63,7 @@ export function signUpUser(userData) {
 	};
 }
 
-export function getUserData() {
+export function fetchUserData() {
 	return (dispatch) => {
 		dispatch(startLoading());
 		const authToken = localStorage.getItem('Authorization');
