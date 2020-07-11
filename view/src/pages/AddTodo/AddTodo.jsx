@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 //components
 import Layout from '../../components/Layout/Layout';
@@ -132,4 +133,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddTodo);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddTodo));
