@@ -13,6 +13,13 @@ export function updateUserData(payload) {
 	};
 }
 
+export function updateUserToken(payload) {
+	return {
+		type: 'UPDATE_USER_TOKEN',
+		payload
+	};
+}
+
 export function updateError(payload) {
 	return {
 		type: 'UPDATE_ERROR',
@@ -20,7 +27,7 @@ export function updateError(payload) {
 	};
 }
 
-export function signinUser({ username, password }) {
+export function signinUser({ username, password, isPersistent }) {
 	return (dispatch) => {
 		dispatch(startLoading());
 
@@ -33,8 +40,12 @@ export function signinUser({ username, password }) {
 			.post('/signin', userData)
 			.then((response) => {
 				const payload = response.data;
-				localStorage.setItem('Authorization', 'Bearer ' + payload.token);
-				dispatch(fetchUserData());
+				const token = 'Bearer ' + payload.token;
+				dispatch(updateUserToken(token));
+				if (isPersistent) {
+					localStorage.setItem('Authorization', 'Bearer ' + payload.token);
+				}
+				dispatch(fetchUserData(token));
 			})
 			.catch((error) => {
 				if (!error.response) {
@@ -54,20 +65,22 @@ export function signUpUser(userData) {
 			.post('/signup', userData)
 			.then((response) => {
 				const payload = response.data;
-				localStorage.setItem('Authorization', 'Bearer ' + payload.token);
-				dispatch(fetchUserData());
+				const token = 'Bearer ' + payload.token;
+				dispatch(updateUserToken(token));
+				dispatch(fetchUserData(token));
 			})
 			.catch((error) => {
-				dispatch(updateError(error));
+				dispatch(updateError(error.response.data.error));
 			});
 	};
 }
 
-export function fetchUserData() {
+export function fetchUserData(token) {
 	return (dispatch) => {
 		dispatch(startLoading());
-		const authToken = localStorage.getItem('Authorization');
+		const authToken = token || localStorage.getItem('Authorization');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
+		console.log(authToken);
 		axios
 			.get('/user')
 			.then((response) => {

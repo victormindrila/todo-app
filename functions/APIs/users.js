@@ -71,6 +71,7 @@ exports.signup = (request, response) => {
 		.catch((error) => {
 			console.error(error);
 			if (error.code === 'auth/email-already-in-use') {
+				console.log(error.code);
 				return response.status(400).json({ error: 'Email already in use' });
 			} else {
 				return response.status(500).json({ error: 'Something went wrong, please try again' });

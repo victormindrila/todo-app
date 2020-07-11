@@ -156,7 +156,7 @@ class Signup extends Component {
 								</button>
 							</div>
 						</div>
-						{this.props.fetchError.error && <Error error={this.props.fetchError.error} />}
+						{this.props.fetchError && <Error error={this.props.fetchError} />}
 					</form>
 				</div>
 			</div>

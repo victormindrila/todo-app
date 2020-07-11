@@ -12,13 +12,13 @@ import Error from '../../components/Error/Error';
 import { getAllTodos, setVisibilityFilter, updateErrorTodos } from '../../store/actions/todos';
 
 //selectors
-import { getTodosByVisibilityFilter, getFetchTodosError } from '../../store/selectors';
+import { getTodosByVisibilityFilter, getFetchTodosError, getUserToken } from '../../store/selectors';
 
 class ViewTodos extends React.Component {
 	componentDidMount() {
 		if (this.props.visibleTodos.length === 0) {
 			this.props.updateErrorTodos('');
-			this.props.getAllTodos();
+			this.props.getAllTodos(this.props.userToken);
 		}
 	}
 
@@ -51,14 +51,15 @@ class ViewTodos extends React.Component {
 function mapStateToProps(state) {
 	return {
 		visibleTodos: getTodosByVisibilityFilter(state),
-		fetchError: getFetchTodosError(state)
+		fetchError: getFetchTodosError(state),
+		userToken: getUserToken(state)
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		getAllTodos: () => {
-			dispatch(getAllTodos());
+		getAllTodos: (token) => {
+			dispatch(getAllTodos(token));
 		},
 		setVisibilityFilter: (filter) => {
 			dispatch(setVisibilityFilter(filter));

@@ -24,7 +24,8 @@ class Signin extends React.Component {
 		this.state = {
 			username: '',
 			password: '',
-			validationErrors: ''
+			validationErrors: '',
+			isPersistent: false
 		};
 	}
 
@@ -36,7 +37,7 @@ class Signin extends React.Component {
 
 	handleChange(e) {
 		this.setState({
-			[e.target.name]: e.target.value
+			[e.target.name]: e.target.name === 'isPersistent' ? e.target.checked : e.target.value
 		});
 	}
 
@@ -47,7 +48,11 @@ class Signin extends React.Component {
 		if (this.state.validationErrors) this.setState({ validationErrors: '' });
 		if (this.props.fetchError) updateError('');
 
-		const userData = { username: this.state.username, password: this.state.password };
+		const userData = {
+			username: this.state.username,
+			password: this.state.password,
+			isPersistent: this.state.isPersistent
+		};
 
 		const { valid, errors } = validateSigninData(userData);
 
@@ -91,7 +96,14 @@ class Signin extends React.Component {
 						</div>
 
 						<div className='form-check my-2 mt-3'>
-							<input type='checkbox' className='form-check-input' id='remember-me' />
+							<input
+								type='checkbox'
+								className='form-check-input'
+								id='remember-me'
+								name='isPersistent'
+								checked={this.state.isPersistent}
+								onChange={(e) => this.handleChange(e)}
+							/>
 							<label className='form-check-label' htmlFor='remember-me'>
 								Remember me
 							</label>
@@ -124,8 +136,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		signinUser: (username, password) => {
-			dispatch(signinUser(username, password));
+		signinUser: (userData) => {
+			dispatch(signinUser(userData));
 		},
 		updateError: (error) => {
 			dispatch(updateError(error));

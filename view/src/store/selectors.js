@@ -6,6 +6,8 @@ export const getFetchUserError = (store) => store.user.error;
 
 export const getUserData = (store) => store.user.data;
 
+export const getUserToken = (store) => store.user.Authorization;
+
 export function getTodosByVisibilityFilter(store) {
 	const todos = store.todos.data.slice() || [];
 	const visibilityFilter = getVisibilityFilter(store);

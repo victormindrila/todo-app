@@ -27,10 +27,10 @@ export function setVisibilityFilter(filter) {
 	};
 }
 
-export function getAllTodos() {
+export function getAllTodos(token) {
 	return (dispatch) => {
 		dispatch(startLoadingTodos());
-		const authToken = localStorage.getItem('Authorization');
+		const authToken = token || localStorage.getItem('Authorization');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
 		axios
 			.get('/todos')
@@ -44,16 +44,17 @@ export function getAllTodos() {
 	};
 }
 
-export function addTodo(todoData) {
+export function addTodo(todoData, token) {
 	console.log(todoData);
 	return (dispatch) => {
 		dispatch(startLoadingTodos());
-		const authToken = localStorage.getItem('Authorization');
+		const authToken = token || localStorage.getItem('Authorization');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
 		axios
 			.post('/todos/add', todoData)
 			.then(() => {
-				dispatch(getAllTodos());
+				//refresh all todos after todo has been added to db
+				dispatch(getAllTodos(authToken));
 			})
 			.catch((error) => {
 				dispatch(updateErrorTodos(error.response.data));

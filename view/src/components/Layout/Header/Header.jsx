@@ -14,12 +14,14 @@ import Logo from '../../../assets/images/logo/logo.png';
 import { fetchUserData } from '../../../store/actions/user';
 
 //selectors
-import { getUserData } from '../../../store/selectors.js';
+import { getUserData, getUserToken } from '../../../store/selectors.js';
 
-function Header({ user, fetchUserData }) {
+function Header({ user, userToken, fetchUserData }) {
 	const [ showDropDown, setShowDropDown ] = useState(false);
 	useEffect(() => {
-		fetchUserData();
+		if (!user) {
+			fetchUserData(userToken);
+		}
 	}, []);
 	return (
 		<header className='border-bottom mb-3 '>
@@ -43,7 +45,8 @@ function Header({ user, fetchUserData }) {
 
 function mapStateToProps(state) {
 	return {
-		user: getUserData(state)
+		user: getUserData(state),
+		userToken: getUserToken(state)
 	};
 }
 

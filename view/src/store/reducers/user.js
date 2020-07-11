@@ -1,6 +1,7 @@
 const initialState = {
 	data: '',
 	loading: false,
+	Authorization: '',
 	error: ''
 };
 
@@ -15,6 +16,12 @@ export function userReducer(state = initialState, action) {
 			return {
 				...state,
 				data: action.payload,
+				loading: false
+			};
+		case 'UPDATE_USER_TOKEN':
+			return {
+				...state,
+				Authorization: action.payload,
 				loading: false
 			};
 		case 'UPDATE_ERROR':

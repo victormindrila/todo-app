@@ -10,7 +10,7 @@ import { validateAddTodoData } from '../../util/validators';
 import { addTodo, updateErrorTodos } from '../../store/actions/todos';
 
 //selectors
-import { getFetchTodosError } from '../../store/selectors';
+import { getFetchTodosError, getUserToken } from '../../store/selectors';
 
 class AddTodo extends React.Component {
 	constructor() {
@@ -41,7 +41,7 @@ class AddTodo extends React.Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		const { addTodo, updateErrorTodos } = this.props;
+		const { addTodo, updateErrorTodos, userToken } = this.props;
 		//check if any error already stored in state and clear
 		if (this.state.validationErrors) this.setState({ validationErrors: '' });
 		if (this.props.fetchError) updateErrorTodos('');
@@ -55,7 +55,7 @@ class AddTodo extends React.Component {
 		const { valid, errors } = validateAddTodoData(todoData);
 
 		if (valid) {
-			addTodo(todoData);
+			addTodo(todoData, userToken);
 			this.props.history.push('/todos');
 		}
 
@@ -116,14 +116,15 @@ class AddTodo extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		fetchError: getFetchTodosError(state)
+		fetchError: getFetchTodosError(state),
+		userToken: getUserToken(state)
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		addTodo: (todoData) => {
-			dispatch(addTodo(todoData));
+		addTodo: (todoData, token) => {
+			dispatch(addTodo(todoData, token));
 		},
 		updateErrorTodos: (error) => {
 			dispatch(updateErrorTodos(error));
