@@ -80,7 +80,6 @@ export function fetchUserData(token) {
 		dispatch(startLoading());
 		const authToken = token || localStorage.getItem('Authorization');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
-		console.log(authToken);
 		axios
 			.get('/user')
 			.then((response) => {

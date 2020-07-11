@@ -31,8 +31,6 @@ class Dropdown extends React.Component {
 	}
 
 	render() {
-		console.log(this.props);
-
 		return (
 			<div
 				ref={this.setWrapperRef}
