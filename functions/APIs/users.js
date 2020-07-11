@@ -13,7 +13,7 @@ exports.signin = async (request, response) => {
 		const userSnapshot = await db.doc(`/users/${username}`).get();
 
 		if (!userSnapshot.exists) {
-			return response.status(400).json({ error: "username doesn't exist" });
+			return response.status(400).json({ error: "Username doesn't exist" });
 		}
 
 		const userData = await firebase.auth().signInWithEmailAndPassword(userSnapshot.data().email, password);
@@ -23,7 +23,7 @@ exports.signin = async (request, response) => {
 		return response.json({ token });
 	} catch (error) {
 		console.error(error);
-		return response.status(403).json({ error: 'wrong credentials, please try again' });
+		return response.status(403).json({ error: 'Wrong credentials, please try again' });
 	}
 };
 
@@ -44,7 +44,7 @@ exports.signup = (request, response) => {
 		.get()
 		.then((doc) => {
 			if (doc.exists) {
-				return response.status(400).json({ error: 'this username is already taken' });
+				return response.status(400).json({ error: 'This username is already taken' });
 			} else {
 				return firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password);
 			}

@@ -31,7 +31,7 @@ class Signin extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		if (this.props.user !== prevProps.user) {
-			this.props.history.push('/todos');
+			this.props.history.push('/');
 		}
 	}
 
@@ -114,7 +114,9 @@ class Signin extends React.Component {
 						</Link>
 
 						<div className='d-flex justify-content-between'>
-							<button className='btn btn-outline-dark'>Register</button>
+							<button className='btn btn-outline-dark' onClick={() => this.props.history.push('/signup')}>
+								Register
+							</button>
 							<button type='submit' className='btn btn-outline-dark'>
 								Log In
 							</button>

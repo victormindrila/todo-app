@@ -22,3 +22,21 @@ export function getTodosByVisibilityFilter(store) {
 			return todos;
 	}
 }
+
+export function getCountedTodos(store) {
+	const todos = store.todos.data;
+	const totals = {
+		totalNumberOfTodos: 0,
+		completedTodos: 0,
+		incompletedTodos: 0
+	};
+	todos.forEach((todo) => {
+		totals.totalNumberOfTodos += 1;
+		if (todo.completed) {
+			totals.completedTodos += 1;
+		} else {
+			totals.incompletedTodos += 1;
+		}
+	});
+	return totals;
+}
