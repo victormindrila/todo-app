@@ -70,7 +70,7 @@ export function signUpUser(userData) {
 				dispatch(fetchUserData(token));
 			})
 			.catch((error) => {
-				dispatch(updateError(error.response.data.error));
+				dispatch(updateError({ signup: error.response.data.error || error.response.data.message }));
 			});
 	};
 }
