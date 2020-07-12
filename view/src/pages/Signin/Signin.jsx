@@ -67,7 +67,7 @@ class Signin extends React.Component {
 		} else {
 			return (
 				<div className='signin-page flex-column d-flex justify-content-center align-items-center'>
-					<div className='login-form d-flex flex-column shadow px-5 py-4 pb-5'>
+					<div className='login-form d-flex flex-column px-5 py-4 pb-5'>
 						<Link to='/' className='align-self-center'>
 							<img src={Logo} alt='logo' className='logo mb-4' />
 						</Link>

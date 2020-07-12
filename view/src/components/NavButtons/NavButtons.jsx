@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function NavButtons() {
 	return (
-		<div className='btn-group'>
+		<div className='btn-group-sm'>
 			<Link to='/todos'>
 				<button className={`btn px-5 btn-outline-dark`}>View Todos</button>
 			</Link>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import './App.css';
 import { connect } from 'react-redux';
 
 //pages

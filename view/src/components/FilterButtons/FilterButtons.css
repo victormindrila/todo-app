@@ -1,0 +1,7 @@
+@media (max-width: 768px) {
+	.filter-buttons button {
+		width: 100%;
+		padding-left: 2rem !important;
+		padding-right: 2rem !important;
+	}
+}

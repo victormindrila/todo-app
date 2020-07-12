@@ -26,10 +26,10 @@ function Header({ user, logoutUser, clearTodos }) {
 					<img src={Logo} alt={`Todo App logo`} className='logo' />
 				</Link>
 				<div className=' pl-3 w-100 d-flex align-items-center justify-content-between'>
-					<h1 className='h3'>My Cool App</h1>
+					<h1 className='h3 app-title'>My Cool App</h1>
 					<div className=' user-dropdown dropdown d-flex align-items-center' onClick={() => setShowDropDown(true)}>
 						<UserLogo />
-						<span className='h4 ml-1 mt-2'>Welcome {user.username}</span>
+						<span className='h4 ml-1 mt-2 username'>Welcome {user.username}</span>
 						<div className=' dropdown-toggle h4 ml-2 pt-2' />
 						<Dropdown
 							show={showDropDown}

@@ -1,0 +1,16 @@
+.add-todo-input-wrapper {
+	max-width: 500px;
+}
+
+.date-input-wrapper {
+	max-width: 200px;
+}
+
+.status-input-wrapper {
+	max-width: 150px;
+}
+
+.add-newtodo-wrapper {
+	width: 100%;
+	max-width: 600px;
+}

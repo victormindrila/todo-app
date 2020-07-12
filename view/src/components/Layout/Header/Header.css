@@ -6,3 +6,14 @@ header .logo {
 .user-dropdown {
 	cursor: pointer;
 }
+
+@media (max-width: 768px) {
+	header .logo {
+		height: 40px;
+	}
+
+	header .app-title,
+	.username {
+		font-size: 1rem !important;
+	}
+}

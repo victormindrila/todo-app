@@ -1,8 +1,9 @@
 import React from 'react';
+import './FilterButtons.css';
 
 function FilterButtons({ setVisibilityFilter, currentFilter }) {
 	return (
-		<div className='btn-group'>
+		<div className='btn-group-sm filter-buttons'>
 			<button
 				className={`btn px-5 ${currentFilter === 'SHOW_ALL' ? 'btn-primary' : 'btn-outline-dark'}`}
 				onClick={() => setVisibilityFilter('SHOW_ALL')}>

@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+//style
+import './AddTodo.css';
+
 //components
 import Layout from '../../components/Layout/Layout';
 import Error from '../../components/Error/Error';
@@ -66,7 +69,7 @@ class AddTodo extends React.Component {
 	render() {
 		return (
 			<Layout>
-				<div className='border-bottom w-50'>
+				<div className='add-newtodo-wrapper border-bottom'>
 					<p className='h2 my-4'>Add a new Todo</p>
 				</div>
 				<form
@@ -74,38 +77,46 @@ class AddTodo extends React.Component {
 						this.handleSubmit(e);
 					}}>
 					<div className='form-group my-4'>
-						<input
-							className='form-control w-50 my-3'
-							name='title'
-							placeholder='Add a new Todo'
-							value={this.state.title}
-							onChange={(e) => this.handleChange(e)}
-						/>
+						<div className='add-todo-input-wrapper'>
+							<input
+								className='form-control  input-sm my-3'
+								name='title'
+								placeholder='Add a new Todo'
+								value={this.state.title}
+								onChange={(e) => this.handleChange(e)}
+							/>
+						</div>
 						{this.state.validationErrors.title && <Error error={this.state.validationErrors.title} />}
-						<input
-							type='date'
-							className='form-control w-25 my-3'
-							name='dueDate'
-							value={this.state.dueDate}
-							onChange={(e) => this.handleChange(e)}
-						/>
+						<div className='date-input-wrapper'>
+							<input
+								type='date'
+								className='form-control my-3'
+								name='dueDate'
+								value={this.state.dueDate}
+								onChange={(e) => this.handleChange(e)}
+							/>
+						</div>
 						{this.state.validationErrors.dueDate && <Error error={this.state.validationErrors.dueDate} />}
-						<select
-							value={this.state.completed}
-							name='completed'
-							className='form-control w-25 my-3'
-							onChange={(e) => this.handleSelectChange(e)}>
-							<option value='' disabled>
-								Status
-							</option>
-							<option value={true}>Completed</option>
-							<option value={false}>Incomplete</option>
-						</select>
+						<div className='status-input-wrapper'>
+							<select
+								value={this.state.completed}
+								name='completed'
+								className='form-control my-3'
+								onChange={(e) => this.handleSelectChange(e)}>
+								<option value='' disabled>
+									Status
+								</option>
+								<option value={true}>Completed</option>
+								<option value={false}>Incomplete</option>
+							</select>
+						</div>
 						{this.state.validationErrors.completed && <Error error={this.state.validationErrors.completed} />}
-						<div>
-							<button type='submit' className='btn btn-outline-dark px-5 text-center'>
-								Add Todo
-							</button>
+						<div className='add-todo-button-wrapper'>
+							<div>
+								<button type='submit' className='btn btn-outline-dark px-5 text-center'>
+									Add Todo
+								</button>
+							</div>
 						</div>
 					</div>
 				</form>

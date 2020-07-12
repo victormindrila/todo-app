@@ -1,12 +1,28 @@
-.todo-wrapper {
+#todo-wrapper {
 	display: table;
 }
 
-.todo-wrapper .title {
+#todo-wrapper .title {
 	display: inline-block;
-	min-width: 400px;
+	width: 400px;
 }
 
-.todo-wrapper .date {
+#todo-wrapper .date {
 	display: inline-block;
+}
+
+@media (max-width: 768px) {
+	.todo {
+		width: 100%;
+		border-bottom: 1px solid #dee2e6;
+	}
+	#todo-wrapper {
+		border-bottom: 0 solid !important;
+	}
+	#todo-wrapper .title {
+		width: auto;
+	}
+	#todo-wrapper .date {
+		width: auto;
+	}
 }

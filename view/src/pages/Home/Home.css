@@ -1,0 +1,25 @@
+@media (max-width: 768px) {
+	.dashboard-wrapper {
+		flex-wrap: wrap;
+		padding-bottom: 1rem;
+	}
+	.dashboard-wrapper button {
+		padding-left: 2rem !important;
+		padding-right: 2rem !important;
+	}
+}
+
+@media (max-width: 576px) {
+	.dashboard-wrapper button {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
+	.dashboard-wrapper h1 {
+		font-size: 1.5rem;
+	}
+
+	.aggregates-wrapper p {
+		font-size: 1rem;
+	}
+}

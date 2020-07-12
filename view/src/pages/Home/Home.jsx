@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+//style
+import './Home.css';
+
 //components
 import Layout from '../../components/Layout/Layout';
 import Doughnut from '../../components/Doughnut/Doughnut';
@@ -41,11 +44,11 @@ class Home extends React.Component {
 		} else {
 			return (
 				<Layout>
-					<div className='border-bottom d-flex justify-content-between align-items-center'>
+					<div className='dashboard-wrapper border-bottom d-flex justify-content-between align-items-center'>
 						<h1 className='h2 my-4'>DASHBOARD</h1>
 						<NavButtons />
 					</div>
-					<div className='border-bottom'>
+					<div className='aggregates-wrapper border-bottom'>
 						<p className='h4 my-4'>Total todos: {countedTodos.totalNumberOfTodos} </p>
 						<p className='h4 my-4'>Completed todos: {countedTodos.completedTodos} </p>
 						<p className='h4 my-4'>Incompleted todos: {countedTodos.incompletedTodos} </p>

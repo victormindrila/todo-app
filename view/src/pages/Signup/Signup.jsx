@@ -69,7 +69,7 @@ class Signup extends Component {
 	render() {
 		return (
 			<div className='signup-page flex-column d-flex justify-content-center align-items-center'>
-				<div className='signup-form d-flex flex-column shadow px-5 py-4 pb-5'>
+				<div className='signup-form d-flex flex-column px-5 py-4 pb-5'>
 					<Link to='/' className='align-self-center'>
 						<img src={Logo} alt='logo' className='logo mb-4' />
 					</Link>

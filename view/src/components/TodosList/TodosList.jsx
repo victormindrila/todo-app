@@ -6,8 +6,8 @@ function TodosList({ todos, handleMarkCompleted }) {
 		<div>
 			{todos.map((todo) => {
 				return (
-					<div className='d-flex align-items-center' key={todo.todoId}>
-						<div className='todo-wrapper border-bottom mt-3'>
+					<div className='todo d-flex align-items-center flex-wrap' key={todo.todoId}>
+						<div className='border-bottom mt-3' id='todo-wrapper'>
 							<div className='title'>
 								<p>
 									{todo.title}
