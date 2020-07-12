@@ -9,6 +9,7 @@ import { ReactComponent as Add } from '../../assets/icons/add.svg';
 import TodosList from '../../components/TodosList/TodosList';
 import Error from '../../components/Error/Error';
 import FilterButtons from '../../components/FilterButtons/FilterButtons';
+import Spinner from '../../components/Spinner/Spinner';
 
 //actions
 import { getAllTodos, setVisibilityFilter, updateErrorTodos } from '../../store/actions/todos';
@@ -18,7 +19,8 @@ import {
 	getTodosByVisibilityFilter,
 	getFetchTodosError,
 	getUserToken,
-	getVisibilityFilter
+	getVisibilityFilter,
+	getTodosLoading
 } from '../../store/selectors';
 
 class ViewTodos extends React.Component {
@@ -47,7 +49,7 @@ class ViewTodos extends React.Component {
 	}
 
 	render() {
-		const { setVisibilityFilter, currentFilter } = this.props;
+		const { setVisibilityFilter, currentFilter, todosLoading } = this.props;
 		return (
 			<Layout>
 				<Link to='/todos/add' className='add-todo d-flex align-items-center my-5 text-dark'>
@@ -55,7 +57,11 @@ class ViewTodos extends React.Component {
 					<span className='h2 ml-2'>Add a new Todo</span>
 				</Link>
 				<FilterButtons setVisibilityFilter={setVisibilityFilter} currentFilter={currentFilter} />
-				<TodosList todos={this.props.visibleTodos} handleMarkCompleted={this.handleMarkCompleted} />
+				{todosLoading ? (
+					<Spinner />
+				) : (
+					<TodosList todos={this.props.visibleTodos} handleMarkCompleted={this.handleMarkCompleted} />
+				)}
 				{this.props.fetchError && <Error error={this.props.fetchError} />}
 			</Layout>
 		);
@@ -67,7 +73,8 @@ function mapStateToProps(state) {
 		visibleTodos: getTodosByVisibilityFilter(state),
 		fetchError: getFetchTodosError(state),
 		userToken: getUserToken(state),
-		currentFilter: getVisibilityFilter(state)
+		currentFilter: getVisibilityFilter(state),
+		todosLoading: getTodosLoading(state)
 	};
 }
 

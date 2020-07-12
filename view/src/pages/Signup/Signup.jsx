@@ -147,7 +147,12 @@ class Signup extends Component {
 						</div>
 						<div className='row'>
 							<div className='col-sm-6 my-2'>
-								<button className='btn btn-outline-dark px-5' onClick={() => this.props.history.goBack()}>
+								<button
+									className='btn btn-outline-dark px-5'
+									onClick={(e) => {
+										e.preventDefault();
+										this.props.history.goBack();
+									}}>
 									&lt; Back
 								</button>
 							</div>

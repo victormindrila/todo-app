@@ -8,6 +8,10 @@ export const getUserData = (store) => store.user.data;
 
 export const getUserToken = (store) => store.user.Authorization;
 
+export const getUserLoading = (store) => store.user.loading;
+
+export const getTodosLoading = (store) => store.todos.loading;
+
 export function getTodosByVisibilityFilter(store) {
 	const todos = store.todos.data.slice() || [];
 	const visibilityFilter = getVisibilityFilter(store);

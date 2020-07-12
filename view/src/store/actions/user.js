@@ -87,7 +87,7 @@ export function fetchUserData(token) {
 				dispatch(updateUserData(payload));
 			})
 			.catch((error) => {
-				dispatch(updateError(error.response.data.message));
+				dispatch(updateError(error.response.data.error || error.response.data.message));
 			});
 	};
 }
