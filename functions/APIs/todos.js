@@ -38,3 +38,19 @@ exports.addOneTodo = (request, response) => {
 			console.error(error);
 		});
 };
+
+exports.editTodo = (request, response) => {
+	let document = db.collection('todos').doc(`${request.params.todoId}`);
+
+	document
+		.update(request.body)
+		.then(() => {
+			response.json({ message: 'Updated successfully' });
+		})
+		.catch((err) => {
+			console.error(err);
+			return response.status(400).json({
+				error: 'Something went wrong'
+			});
+		});
+};

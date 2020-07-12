@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 //components
 import Layout from '../../components/Layout/Layout';
@@ -21,11 +22,28 @@ import {
 } from '../../store/selectors';
 
 class ViewTodos extends React.Component {
+	constructor() {
+		super();
+		this.handleMarkCompleted = this.handleMarkCompleted.bind(this);
+	}
 	componentDidMount() {
 		if (this.props.visibleTodos.length === 0) {
 			this.props.updateErrorTodos('');
 			this.props.getAllTodos(this.props.userToken);
 		}
+	}
+
+	handleMarkCompleted(todoId, data) {
+		const authToken = this.props.token || localStorage.getItem('Authorization');
+		axios.defaults.headers.common = { Authorization: `${authToken}` };
+		axios
+			.put(`/todos/${todoId}`, data)
+			.then((response) => {
+				this.props.getAllTodos(authToken);
+			})
+			.catch((error) => {
+				console.dir(error);
+			});
 	}
 
 	render() {
@@ -37,7 +55,7 @@ class ViewTodos extends React.Component {
 					<span className='h2 ml-2'>Add a new Todo</span>
 				</Link>
 				<FilterButtons setVisibilityFilter={setVisibilityFilter} currentFilter={currentFilter} />
-				<TodosList todos={this.props.visibleTodos} />
+				<TodosList todos={this.props.visibleTodos} handleMarkCompleted={this.handleMarkCompleted} />
 				{this.props.fetchError && <Error error={this.props.fetchError} />}
 			</Layout>
 		);

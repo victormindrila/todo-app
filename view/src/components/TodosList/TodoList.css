@@ -1,0 +1,12 @@
+.todo-wrapper {
+	display: table;
+}
+
+.todo-wrapper .title {
+	display: inline-block;
+	min-width: 400px;
+}
+
+.todo-wrapper .date {
+	display: inline-block;
+}
