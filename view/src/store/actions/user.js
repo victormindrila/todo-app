@@ -37,7 +37,7 @@ export function signinUser({ username, password, isPersistent }) {
 		};
 
 		axios
-			.post('/signin', userData)
+			.post('https://us-central1-todo-app-2b9e9.cloudfunctions.net/api/signin', userData)
 			.then((response) => {
 				const payload = response.data;
 				const token = 'Bearer ' + payload.token;
@@ -62,7 +62,7 @@ export function signUpUser(userData) {
 		dispatch(startLoading());
 
 		axios
-			.post('/signup', userData)
+			.post('https://us-central1-todo-app-2b9e9.cloudfunctions.net/api/signup', userData)
 			.then((response) => {
 				const payload = response.data;
 				const token = 'Bearer ' + payload.token;
@@ -70,7 +70,11 @@ export function signUpUser(userData) {
 				dispatch(fetchUserData(token));
 			})
 			.catch((error) => {
-				dispatch(updateError({ signup: error.response.data.error || error.response.data.message }));
+				if (!error.response) {
+					dispatch(updateError({ error: 'no response from resource' }));
+				} else {
+					dispatch(updateError({ signup: error.response.data.error || error.response.data.message }));
+				}
 			});
 	};
 }
@@ -81,13 +85,17 @@ export function fetchUserData(token) {
 		const authToken = token || localStorage.getItem('Authorization');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
 		axios
-			.get('/user')
+			.get('https://us-central1-todo-app-2b9e9.cloudfunctions.net/api/user')
 			.then((response) => {
 				const payload = response.data;
 				dispatch(updateUserData(payload));
 			})
 			.catch((error) => {
-				dispatch(updateError(error.response.data.error || error.response.data.message));
+				if (!error.response) {
+					dispatch(updateError({ error: 'no response from resource' }));
+				} else {
+					dispatch(updateError(error.response.data.error || error.response.data.message));
+				}
 			});
 	};
 }
