@@ -10,12 +10,19 @@ import Layout from '../../components/Layout/Layout';
 import Doughnut from '../../components/Doughnut/Doughnut';
 import NavButtons from '../../components/NavButtons/NavButtons';
 import { ReactComponent as Add } from '../../assets/icons/add.svg';
+import Spinner from '../../components/Spinner/Spinner';
 
 //actions
 import { getAllTodos, updateErrorTodos } from '../../store/actions/todos';
 
 //selectors
-import { getTodosByVisibilityFilter, getFetchTodosError, getUserToken, getCountedTodos } from '../../store/selectors';
+import {
+	getTodosByVisibilityFilter,
+	getFetchTodosError,
+	getUserToken,
+	getCountedTodos,
+	getTodosLoading
+} from '../../store/selectors';
 
 class Home extends React.Component {
 	componentDidMount() {
@@ -26,10 +33,10 @@ class Home extends React.Component {
 	}
 
 	render() {
-		const { countedTodos, visibleTodos } = this.props;
+		const { countedTodos, visibleTodos, loadingTodos } = this.props;
 		const chartData = [ countedTodos.completedTodos, countedTodos.incompletedTodos ];
 
-		if (visibleTodos.length === 0) {
+		if (visibleTodos.length === 0 && !loadingTodos) {
 			return (
 				<Layout>
 					<div className='d-flex flex-column align-items-center h-100'>
@@ -48,12 +55,19 @@ class Home extends React.Component {
 						<h1 className='h2 my-4'>DASHBOARD</h1>
 						<NavButtons />
 					</div>
-					<div className='aggregates-wrapper border-bottom'>
-						<p className='h4 my-4'>Total todos: {countedTodos.totalNumberOfTodos} </p>
-						<p className='h4 my-4'>Completed todos: {countedTodos.completedTodos} </p>
-						<p className='h4 my-4'>Incompleted todos: {countedTodos.incompletedTodos} </p>
-					</div>
-					<Doughnut data={chartData} />
+
+					{loadingTodos ? (
+						<Spinner />
+					) : (
+						<div>
+							<div className='aggregates-wrapper border-bottom'>
+								<p className='h4 my-4'>Total todos: {countedTodos.totalNumberOfTodos} </p>
+								<p className='h4 my-4'>Completed todos: {countedTodos.completedTodos} </p>
+								<p className='h4 my-4'>Incompleted todos: {countedTodos.incompletedTodos} </p>
+							</div>
+							<Doughnut data={chartData} />
+						</div>
+					)}
 				</Layout>
 			);
 		}
@@ -65,7 +79,8 @@ function mapStateToProps(state) {
 		visibleTodos: getTodosByVisibilityFilter(state),
 		fetchError: getFetchTodosError(state),
 		userToken: getUserToken(state),
-		countedTodos: getCountedTodos(state)
+		countedTodos: getCountedTodos(state),
+		loadingTodos: getTodosLoading(state)
 	};
 }
 
