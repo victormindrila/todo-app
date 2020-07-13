@@ -39,7 +39,7 @@ export function getAllTodos(token) {
 		const authToken = token || localStorage.getItem('Authorization');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
 		axios
-			.get('/todos')
+			.get('https://us-central1-todo-app-2b9e9.cloudfunctions.net/api/todos')
 			.then((response) => {
 				const payload = response.data;
 				dispatch(updateTodosData(payload));
@@ -56,7 +56,7 @@ export function addTodo(todoData, token) {
 		const authToken = token || localStorage.getItem('Authorization');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
 		axios
-			.post('/todos/add', todoData)
+			.post('https://us-central1-todo-app-2b9e9.cloudfunctions.net/api/todos/add', todoData)
 			.then(() => {
 				//refresh all todos after todo has been added to db
 				dispatch(getAllTodos(authToken));

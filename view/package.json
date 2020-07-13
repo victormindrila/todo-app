@@ -28,16 +28,8 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
+		"production": [ ">0.2%", "not dead", "not op_mini all" ],
+		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
 	},
-	"proxy": "http://localhost:5000/todo-app-2b9e9/us-central1/api/"
+	"proxy": "https://us-central1-todo-app-2b9e9.cloudfunctions.net/api"
 }
