@@ -45,7 +45,11 @@ export function getAllTodos(token) {
 				dispatch(updateTodosData(payload));
 			})
 			.catch((error) => {
-				dispatch(updateErrorTodos(error.response.data));
+				if (!error.response) {
+					dispatch(updateErrorTodos({ error: 'no response from resource' }));
+				} else {
+					dispatch(updateErrorTodos(error.response.data));
+				}
 			});
 	};
 }
@@ -62,7 +66,11 @@ export function addTodo(todoData, token) {
 				dispatch(getAllTodos(authToken));
 			})
 			.catch((error) => {
-				dispatch(updateErrorTodos(error.response.data));
+				if (!error.response) {
+					dispatch(updateErrorTodos({ error: 'no response from resource' }));
+				} else {
+					dispatch(updateErrorTodos(error.response.data));
+				}
 			});
 	};
 }
