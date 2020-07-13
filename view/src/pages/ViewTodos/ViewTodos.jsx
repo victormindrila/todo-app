@@ -39,7 +39,7 @@ class ViewTodos extends React.Component {
 		const authToken = this.props.token || localStorage.getItem('Authorization');
 		axios.defaults.headers.common = { Authorization: `${authToken}` };
 		axios
-			.put(`/todos/${todoId}`, data)
+			.put(`https://us-central1-todo-app-2b9e9.cloudfunctions.net/api/todos/${todoId}`, data)
 			.then((response) => {
 				this.props.getAllTodos(authToken);
 			})

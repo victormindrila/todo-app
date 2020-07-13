@@ -21,6 +21,7 @@
 	}
 	#todo-wrapper .title {
 		width: auto;
+		margin-right: 0.5rem;
 	}
 	#todo-wrapper .date {
 		width: auto;
