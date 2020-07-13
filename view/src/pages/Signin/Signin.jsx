@@ -73,6 +73,12 @@ class Signin extends React.Component {
 						</Link>
 						<form
 							className='d-flex flex-column'
+							onKeyPress={(e) => {
+								//handle enter press
+								if (e.key === 'Enter') {
+									this.handleSubmit(e);
+								}
+							}}
 							onSubmit={(e) => {
 								this.handleSubmit(e);
 							}}>
